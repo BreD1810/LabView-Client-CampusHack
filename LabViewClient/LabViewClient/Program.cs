@@ -34,8 +34,11 @@ namespace LabViewClient
                 Debug.WriteLine($"Connection established with {_serverAddress}");
                 AppDomain.CurrentDomain.ProcessExit += (object sender, EventArgs e) =>
                 {
-                    Task.WaitAll(webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Client closed.", CancellationToken.None));
+                    Debug.WriteLine("Closing connection to server...");
+                    webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Client closed.", CancellationToken.None).Wait();
+                    Debug.WriteLine("Disposing resources...");
                     webSocket.Dispose();
+                    Debug.WriteLine("Safely exiting program.");
                 };
                 await Task.WhenAll(Receive(webSocket), Send(webSocket));
             }
