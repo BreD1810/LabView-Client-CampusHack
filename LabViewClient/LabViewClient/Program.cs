@@ -10,7 +10,7 @@ namespace LabViewClient
     class Program
     {
         const string _serverAddress = "localhost";
-        const int _serverPort = 8080;
+        const int _serverPort = 1337;
         static void Main(string[] args)
         {
             Debug.WriteLine("Client Started.");
