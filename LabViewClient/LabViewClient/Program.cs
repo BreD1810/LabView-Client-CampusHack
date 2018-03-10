@@ -19,27 +19,22 @@ namespace LabViewClient
         private static readonly TimeSpan delay = TimeSpan.FromMilliseconds(30000);
         static UTF8Encoding encoder = new UTF8Encoding();
 
-        //const string _serverAddress = "ws://labview.me/LabView/websocketendpoint";
-        //const int _serverPort = 8080;
+        const string _serverAddress = "ws://labview.me:8080/LabView/websocketendpoint";
+
 
         static string _machineName = Environment.MachineName;
         static void Main(string[] args)
         {
 
-            Connect("ws://labview.me:8080/LabView/websocketendpoint").Wait();
+            Connect(_serverAddress).Wait();
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
 
-            while (true)
-            {
+            //OLD CODE THAT MAY STILL BE USEFUL
+
                 //Debug.WriteLine("Client Started.");
                 //Debug.WriteLine($"Machine Name: {_machineName}");
                 ////var tcpClient = new TcpClient(_serverAddress, _serverPort);
-
-                
-
-               
-                
 
                 //Debug.WriteLine($"TCP Connection established with {_serverAddress}");
                 //byte[] msg = Encoding.UTF8.GetBytes($"<MachineName>{_machineName}\n");
@@ -50,12 +45,7 @@ namespace LabViewClient
                 //string response = Encoding.UTF8.GetString(responseBuffer, 0, bytesRec);
                 //Debug.WriteLine($"Response received: \"{response}\"");
                 //Thread.Sleep(60000);
-            }
 
-            //while (Console.KeyAvailable)
-            //    Console.ReadKey(true);
-            //Console.WriteLine("\r\nPress any key to continue...");
-            //Console.ReadKey();
         }
 
         public static async Task Connect(string uri)
