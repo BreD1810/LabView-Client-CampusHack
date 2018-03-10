@@ -9,14 +9,14 @@ namespace LabViewClient
 {
     class Program
     {
-        const string _serverAddress = "http://localhost";
+        const string _serverAddress = "localhost";
         const int _serverPort = 8080;
         static void Main(string[] args)
         {
             Debug.WriteLine("Client Started.");
             var tcpClient = new TcpClient(_serverAddress, _serverPort);
             Debug.WriteLine($"TCP Connection established with {_serverAddress}");
-            byte[] msg = Encoding.UTF8.GetBytes("I'm a Client and I'm Alive!!!!!!");
+            byte[] msg = Encoding.UTF8.GetBytes("I'm a Client and I'm Alive!!!!!!\n");
             tcpClient.Client.Send(msg);
             Debug.WriteLine("Message Sent...");
             byte[] responseBuffer = new byte[1024];
