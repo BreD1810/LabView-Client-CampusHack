@@ -21,7 +21,7 @@ namespace LabViewClient
             Debug.WriteLine("Message Sent...");
             byte[] responseBuffer = new byte[1024];
             int bytesRec = tcpClient.Client.Receive(responseBuffer);
-            string response = Encoding.ASCII.GetString(responseBuffer, 0, bytesRec);
+            string response = Encoding.UTF8.GetString(responseBuffer, 0, bytesRec);
             Debug.WriteLine($"Response received: \"{response}\"");
 
             //WebRequest request = WebRequest.Create("http://localhost:8080");
