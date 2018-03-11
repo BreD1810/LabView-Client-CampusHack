@@ -3,18 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabViewClient", "LabViewClient\LabViewClient.csproj", "{51B37C3E-EEBF-4D5C-912A-28D79878F545}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LabViewClient", "LabViewClient\LabViewClient.csproj", "{51B37C3E-EEBF-4D5C-912A-28D79878F545}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{51B37C3E-EEBF-4D5C-912A-28D79878F545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{51B37C3E-EEBF-4D5C-912A-28D79878F545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51B37C3E-EEBF-4D5C-912A-28D79878F545}.Debug|x64.ActiveCfg = win10-x64|x64
+		{51B37C3E-EEBF-4D5C-912A-28D79878F545}.Debug|x64.Build.0 = Debug|x64
+		{51B37C3E-EEBF-4D5C-912A-28D79878F545}.Debug|x64.Build.2 = win10-x64|x64
 		{51B37C3E-EEBF-4D5C-912A-28D79878F545}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51B37C3E-EEBF-4D5C-912A-28D79878F545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51B37C3E-EEBF-4D5C-912A-28D79878F545}.Release|x64.ActiveCfg = Release|Any CPU
+		{51B37C3E-EEBF-4D5C-912A-28D79878F545}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,19 +12,27 @@ namespace LabViewClient
         private static readonly TimeSpan Delay = TimeSpan.FromMilliseconds(30000);
 
         const string _serverAddress = "ws://labview.me:8080/LabView/websocketendpoint";
+        static AppDomain _appDomain;
 
         static string _machineName = Environment.MachineName;
 
         static void Main(string[] args)
         {
+            _appDomain = AppDomain.CurrentDomain;
             Debug.WriteLine("Client started.");
             Debug.WriteLine($"Machine Name: {_machineName}");
-            Connect(_serverAddress).Wait();
+            do
+            {
+                Connect(_serverAddress).Wait();
+                Thread.Sleep(60000);
+            }
+            while (true);
 
         }
 
         public static async Task Connect(string uri)
         {
+
             ClientWebSocket webSocket = null;
 
             try
@@ -32,12 +40,22 @@ namespace LabViewClient
                 webSocket = new ClientWebSocket();
                 await webSocket.ConnectAsync(new Uri(uri), CancellationToken.None);
                 Debug.WriteLine($"Connection established with {_serverAddress}");
-                AppDomain.CurrentDomain.ProcessExit += (object sender, EventArgs e) =>
+                _appDomain.ProcessExit += (object sender, EventArgs e) =>
                 {
-                    Debug.WriteLine("Closing connection to server...");
-                    webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Client closed.", CancellationToken.None).Wait();
-                    Debug.WriteLine("Disposing resources...");
-                    webSocket.Dispose();
+                    if (webSocket != null)
+                    {
+                        if (webSocket.State == WebSocketState.Open)
+                        {
+                            Debug.WriteLine("Closing connection to server...");
+                            try
+                            {
+                                webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Client closed.", CancellationToken.None).Wait();
+                            }
+                            catch(Exception ex) { Debug.WriteLine(ex); }
+                        }
+                        Debug.WriteLine("Disposing resources...");
+                        try { webSocket.Dispose(); } catch(Exception ex) { Debug.WriteLine(ex); }
+                    }
                     Debug.WriteLine("Safely exiting program.");
                 };
                 await Task.WhenAll(Receive(webSocket), Send(webSocket));
@@ -50,8 +68,10 @@ namespace LabViewClient
             {
                 if (webSocket != null)
                 {
-                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Client Disconnected.", CancellationToken.None);
-                    webSocket.Dispose();
+                    try { await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Client Disconnected.", CancellationToken.None); }
+                    catch (Exception e) { Debug.WriteLine(e); }
+
+                    try { webSocket.Dispose(); } catch (Exception e) { Debug.WriteLine(e); }
                 }
                 Debug.WriteLine("WebSocket closed.");
             }
@@ -60,7 +80,7 @@ namespace LabViewClient
         private static async Task Send(ClientWebSocket webSocket)
         {
 
-            byte[] buffer = Encoding.UTF8.GetBytes($"Brad");
+            byte[] buffer = Encoding.UTF8.GetBytes(_machineName);
             await webSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
             Debug.WriteLine("Message sent.");
         }
